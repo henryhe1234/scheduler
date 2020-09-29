@@ -23,11 +23,12 @@ const InterviewerList = (props) => {
         <ul className="interviewers__list">
           {props.interviewers.map(interviewer => 
             <InterviewerListItem
-            id = {interviewer.id}
+            key={interviewer.id}
+            // id = {interviewer.id}
             name = {interviewer.name}
             avatar = {interviewer.avatar}
-            selected = {interviewer.id === props.interviewer}
-            setInterviewer = {props.setInterviewer}
+            selected = {interviewer.id === props.value}
+            setInterviewer={event => props.onChange(interviewer.id)}
              />
             )}
         </ul>
