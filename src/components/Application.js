@@ -1,25 +1,30 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment/index.js";
 import "components/Application.scss";
 
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
+// const days = [
+//   {
+//     id: 1,
+//     name: "Monday",
+//     spots: 2,
+//   },
+//   {
+//     id: 2,
+//     name: "Tuesday",
+//     spots: 5,
+//   },
+//   {
+//     id: 3,
+//     name: "Wednesday",
+//     spots: 0,
+//   },
+// ];
+
+// "GET_DAYS":         http://localhost:8001/api/days,
+// "GET_APPOINTMENTS": http://localhost:8001/api/appointments,
+// "GET_INTERVIEWERS": http://localhost:8001/api/interviewer
 
 const appointments = [
   {
@@ -39,26 +44,32 @@ const appointments = [
     }
   },
   {
-    id : 3,
-    time : "2pm",
+    id: 3,
+    time: "2pm",
   },
   {
-    id : 4,
-    time:"3pm",
-    interview:{
-      student:"Henry",
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "Henry",
       interviewer: {
-        id : 2,
-        name : "Andy",
-        avatar:"https://i.imgur.com/T2WwVfS.png",
+        id: 2,
+        name: "Andy",
+        avatar: "https://i.imgur.com/T2WwVfS.png",
       }
     }
   },
 ];
 
 
-const  Application = (props) => {
-  const [day,setDay] = useState("Monday");
+const Application = (props) => {
+  const [day, setDay] = useState("Monday");
+  const [days, setDays] = useState([]);
+  useEffect(() => {
+    const URL = `http://localhost:8001/api/days`
+    axios.get(URL)
+    .then(response => setDays([...response.data]))
+  }, [])
   return (
     <main className="layout">
       <section className="sidebar">
@@ -83,9 +94,9 @@ const  Application = (props) => {
       </section>
       <section className="schedule">
         {appointments.map(appointment => <Appointment
-         key={appointment.id} {...appointment}
-         />)}
-         <Appointment key="last" time="5pm" />
+          key={appointment.id} {...appointment}
+        />)}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
   );
