@@ -13,6 +13,8 @@ const state = {
       appointments: [4, 5]
     }
   ],
+  
+
   appointments: {
     "1": { id: 1, time: "12pm", interview: null },
     "2": { id: 2, time: "1pm", interview: null },
