@@ -67,7 +67,8 @@ const Application = (props) => {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewewr :{}
   });
   const setDay = (day) => setState({ ...state, day });
   // const setDays = (days) => {
@@ -79,11 +80,15 @@ const Application = (props) => {
       axios.get('http://localhost:8001/api/appointments'),
       axios.get('http://localhost:8001/api/interviewers')
     ]).then((all) => {
-      console.log(all[1]);
+      
       let days = all[0].data;
       let appointments = all[1].data;
+      let interviewer = all[2].data;
+
+
+      // let newAppointments = {...appointments, interview};
       // set your states here with the correct values...
-      setState(prev => ({...prev, days,appointments}));
+      setState(prev => ({...prev, days,appointments,interviewer}));
       
       
 
