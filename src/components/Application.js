@@ -103,6 +103,8 @@ const Application = (props) => {
 
     })
   }
+
+  
   const cancelInterview = (id)=>{
     const appointment = {
       ...state.appointments[id],

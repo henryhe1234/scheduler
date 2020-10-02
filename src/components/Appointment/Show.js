@@ -5,6 +5,10 @@ const Show = (props) => {
     props.onDelete();
   }
 
+  const edit = ()=>{
+    props.onEdit();
+  }
+
   return (
     <main className="appointment__card appointment__card--show">
       <section className="appointment__card-left">
@@ -20,7 +24,7 @@ const Show = (props) => {
             className="appointment__actions-button"
             src="images/edit.png"
             alt="Edit"
-            onClick={props.onEdit}
+            onClick={()=>{edit()}}
           />
           <img
             className="appointment__actions-button"
