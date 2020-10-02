@@ -47,6 +47,7 @@ const Appointment = (props) => {
   const cancelation = () => {
     transition(CONFIRM);
   }
+  
   const confirmDelete = () => {
     transition(DELETING,true);
     props.cancelInterview(props.id)
