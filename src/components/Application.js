@@ -61,8 +61,6 @@ import { getAppointmentsForDay,getInterview,getInterviewersForDay } from "../hel
 //   },
 // ];
 
-
-
 const Application = (props) => {
   const [state, setState] = useState({
     day: "Monday",
@@ -71,9 +69,7 @@ const Application = (props) => {
     interviewers :{}
   });
   const setDay = (day) => setState({ ...state, day });
-  // const setDays = (days) => {
-  //   setState(prev => ({ ...prev, days }));
-  // }
+  
   useEffect(() => {
     Promise.all([
       axios.get('http://localhost:8001/api/days'),
@@ -84,15 +80,32 @@ const Application = (props) => {
       let days = all[0].data;
       let appointments = all[1].data;
       let interviewers = all[2].data;
-
-
-      
       setState(prev => ({...prev, days,appointments,interviewers}));
-      
-      
-
     })
   }, [])
+  const bookInterview = (id, interview) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    
+    return axios.put(`http://localhost:8001/api/appointments/${id}`,appointment)
+    .then(()=>{
+      return setState({
+        ...state,
+        appointments
+      });
+
+    })
+    
+
+
+    // console.log(id, interview);
+  }
 
   const dailyAppointments = getAppointmentsForDay(state,state.day);
   const dailyInterviewers = getInterviewersForDay(state,state.day);
@@ -130,6 +143,7 @@ const Application = (props) => {
           // interview = {appointment.interview}
           {...appointment}
           interviewers = {dailyInterviewers}
+          bookInterview = {bookInterview}
           
         />})}
         <Appointment key="last" time="5pm" />

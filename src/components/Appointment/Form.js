@@ -12,7 +12,7 @@ const Form = (props) => {
     setInterviewer(null);
   }
   const save = ()=>{
-    props.onSave(name,interviewer);
+    props.onSave(name,interviewer)
   }
   const cancel = ()=>{
     reset();
