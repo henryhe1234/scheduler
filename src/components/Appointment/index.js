@@ -6,6 +6,7 @@ import Empty from "./Empty.js";
 import Form from "./Form.js";
 import Status from "./Status.js";
 import Confirm from "./Confirm.js";
+import Error from "./Error.js";
 import useVisualMode from "../../hooks/useVisualMode";
 
 const EMPTY = "EMPTY";
@@ -15,6 +16,9 @@ const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETING = "DELETING";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
+const ERROR_EMPTY = "ERROR_EMPTY";
 const Appointment = (props) => {
   // interview={{ student: "Lydia Miller-Jones", interviewer }}
 
@@ -25,25 +29,31 @@ const Appointment = (props) => {
   const save = (name, interviewer) => {
 
     const interview = { student: name, interviewer };
-    transition(SAVING);
-    props.bookInterview(props.id, interview)
-      .then(() => {
+    if (!name || !interviewer) {
+      transition(ERROR_EMPTY)
+    } else {
 
-        transition(SHOW);
-      })
+
+      transition(SAVING);
+      props.bookInterview(props.id, interview)
+        .then(() => {
+
+          transition(SHOW)
+        })
+        .catch(error => transition(ERROR_SAVE, true))
+    }
   }
 
   const cancelation = () => {
     transition(CONFIRM);
-
-
   }
   const confirmDelete = () => {
-    transition(DELETING);
+    transition(DELETING,true);
     props.cancelInterview(props.id)
       .then(() => {
         transition(EMPTY);
       })
+      .catch(error => transition(ERROR_DELETE,true))
 
   }
 
@@ -76,6 +86,10 @@ const Appointment = (props) => {
         onSave={save}
         name={props.interview.student}
         interviewer={props.interview.interviewer.id} />}
+      {mode === ERROR_SAVE && <Error message={"Can't save appointment due to server problem"} onClose={back} />}
+      {mode === ERROR_EMPTY && <Error message={"You have to type your name and select interviewer"} onClose={back} />}
+      {mode === ERROR_DELETE && <Error message={"Can not Delete appointment"} onClose={back} />}
+
     </article>
   );
 };
