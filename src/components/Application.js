@@ -83,6 +83,7 @@ const Application = (props) => {
       setState(prev => ({...prev, days,appointments,interviewers}));
     })
   }, [])
+
   const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
@@ -101,11 +102,33 @@ const Application = (props) => {
       });
 
     })
+  }
+  const cancelInterview = (id)=>{
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    }
+    const appointments = {
+      ...state.appointments,
+      [id] : appointment
+    }
     
 
+    // setState({
+    //       ...state,
+    //       appointments
+    //     });
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+    .then(()=>{
+      return setState({
+        ...state,
+        appointments
+      });
 
-    // console.log(id, interview);
+    })
   }
+
+
 
   const dailyAppointments = getAppointmentsForDay(state,state.day);
   const dailyInterviewers = getInterviewersForDay(state,state.day);
@@ -144,6 +167,7 @@ const Application = (props) => {
           {...appointment}
           interviewers = {dailyInterviewers}
           bookInterview = {bookInterview}
+          cancelInterview = {cancelInterview}
           
         />})}
         <Appointment key="last" time="5pm" />
