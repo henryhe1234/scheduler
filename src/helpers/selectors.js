@@ -65,12 +65,16 @@ export function getAppointmentsForDay(state, day) {
   })
   return array;
 }
+
+
 export function getInterview(state, interview) {
   if (!interview) {
     return null;
   }
   let obj = {};
   let interviewerId = interview.interviewer;
+
+
   let interviewer = state.interviewers[interviewerId];
   return obj = { ...interview, interviewer }
 
