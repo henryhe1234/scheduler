@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
 import Button from "components/Button.js"
 import InterviewerList from "../InterviewerList.js"
+
+
+
 // import { useState } from "react";
 
 const Form = (props) => {
+  const [error, setError] = useState("");
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
@@ -12,7 +16,12 @@ const Form = (props) => {
     setInterviewer(null);
   }
   const save = ()=>{
+    if (name === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
     props.onSave(name,interviewer)
+
   }
   const cancel = ()=>{
     reset();
@@ -24,6 +33,7 @@ const Form = (props) => {
       <section className="appointment__card-left">
         <form onSubmit={event => event.preventDefault()} autoComplete="false">
           <input
+            
             onChange={(event) => {
               
               return setName(event.target.value);
@@ -37,8 +47,10 @@ const Form = (props) => {
           /*
             This must be a controlled component
           */
+         data-testid="student-name-input"
           />
         </form>
+        <section className="appointment__validation">{error}</section>
         <InterviewerList interviewers={props.interviewers} value={interviewer} onChange={setInterviewer} />
       </section>
       <section className="appointment__card-right">

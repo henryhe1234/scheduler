@@ -33,32 +33,23 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const foundDay = state.days.find((day) => day.appointments.includes(id));
+    const days = state.days.map((day) => {
+      if (day.name === foundDay.name && state.appointments[id].interview === null) {
+        return { ...day, spots: day.spots - 1 };
+      } else {
+        return day;
+      }
+    })
 
-
-
-    let days;
     return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
       .then(() => {
-        if(state.appointments[id].interview === null){
-        if (id >= 1 && id <= 5) {
-          days = state.days.map(element => element.id == 1 ? { ...element, spots: element.spots - 1 } : element);
 
-        } else if (id >= 6 && id <= 10) {
-          days = state.days.map(element => element.id == 2 ? { ...element, spots: element.spots0 - 1 } : element);
-
-        } else if (id >= 11 && id <= 15) {
-          days = state.days.map(element => element.id == 3 ? { ...element, spots: element.spots - 1 } : element);
-        } else if (id >= 16 && id <= 20) {
-          days = state.days.map(element => element.id == 4 ? { ...element, spots: element.spots - 1 } : element);
-        } else if (id >= 21 && id <= 25) {
-          days = state.days.map(element => element.id == 5 ? { ...element, spots: element.spots - 1 } : element);
-        }
-      }
-        return days ? setState({
+        return setState({
           ...state,
           appointments,
           days
-        }) : setState({...state,appointments})
+        })
 
       })
   }
@@ -77,24 +68,18 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     }
-
+    const foundDay = state.days.find((day) => day.appointments.includes(id));
+    const days = state.days.map((day) => {
+      if (day.name === foundDay.name) {
+        return { ...day, spots: day.spots + 1 };
+      } else {
+        return day;
+      }
+    })
 
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
-        let days;
-        if (id >= 1 && id <= 5) {
-          days = state.days.map(element => element.id == 1 ? { ...element, spots: element.spots + 1 } : element);
-
-        } else if (id >= 6 && id <= 10) {
-          days = state.days.map(element => element.id == 2 ? { ...element, spots: element.spots + 1 } : element);
-
-        } else if (id >= 11 && id <= 15) {
-          days = state.days.map(element => element.id == 3 ? { ...element, spots: element.spots + 1 } : element);
-        } else if (id >= 16 && id <= 20) {
-          days = state.days.map(element => element.id == 4 ? { ...element, spots: element.spots + 1 } : element);
-        } else if (id >= 21 && id <= 25) {
-          days = state.days.map(element => element.id == 5 ? { ...element, spots: element.spots + 1 } : element);
-        }
+        
 
         return setState({
           ...state,
