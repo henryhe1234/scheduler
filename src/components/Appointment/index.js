@@ -63,10 +63,10 @@ const Appointment = (props) => {
   }
 
 
-  const deleteMessage = "Are you sure you want to delete?";
+  const deleteMessage = "Are you sure you would like to delete?";
 
   return (
-    <article className="appointment">
+    <article data-testid="appointment" className="appointment">
       <Header time={props.time} />
       {/* {props.interview ? <Show student={props.interview.student} interviewer={props.interview.interviewer} /> : <Empty />} */}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
