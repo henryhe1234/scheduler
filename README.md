@@ -21,3 +21,6 @@ npm test
 ```sh
 npm run storybook
 ```
+## Screenshots
+!["Screenshot of Normal Mode"](https://github.com/henryhe1234/scheduler/blob/master/docs/%20Normal_Mode.png?raw=true)
+!["Screenshot of Error Mode"](https://github.com/henryhe1234/scheduler/blob/master/docs/Error_Mode.png?raw=true)
